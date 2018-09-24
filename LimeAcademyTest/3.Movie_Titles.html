@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+	<script src="jquery-3.3.1.min.js"></script>
+
+<input id="title" type="text" placeholder="Title"/>
+<input id="page" type="number" placeholder="Page" />
+<button id="getMovieTitle">Get Movies</button>
+<p></p>
+</head>
+<body>
+
+<script>
+
+	 $('#getMovieTitle').click(function(){ 
+		$('p').empty();
+		 var title = $('#title').val(); 
+		 var page = $('#page').val(); 
+		 $.ajax({
+			type: 'GET',
+			url: 'https://jsonmock.hackerrank.com/api/movies/search/', 
+			data: { 'Title' : title, 'page' : page}, 
+			success: function(data){ 
+				var result = data.data.sort(function(title1, title2){
+					return title1.Title > title2.Title ? 1 : -1;
+				})
+				
+				$.each(result, function(i, item) {
+					$("p").append('<div>' + result[i].Title + '</div>');
+				});
+			},
+			error: function(error){ 
+				console.log(error);
+			} 
+		}) 
+	 }) 
+</script>
+
+</body>
+</html>
